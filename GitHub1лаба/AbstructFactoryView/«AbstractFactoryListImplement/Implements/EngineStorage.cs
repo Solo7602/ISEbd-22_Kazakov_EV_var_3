@@ -19,28 +19,17 @@ namespace _AbstractFactoryListImplement.Implements
         }
         public List<EngineViewModel> GetFullList()
         {
-            var result = new List<EngineViewModel>();
-            foreach (var component in source.Engines)
-            {
-                result.Add(CreateModel(component));
-            }
-            return result;
+            return source.Engines
+            .Select(CreateModel)
+            .ToList();
         }
         public List<EngineViewModel> GetFilteredList(EngineBindingModel model)
         {
-            if (model == null)
-            {
-                return null;
-            }
-            var result = new List<EngineViewModel>();
-            foreach (var engine in source.Engines)
-            {
-                if (engine.Engine.Contains(model.Engine))
-                {
-                    result.Add(CreateModel(engine));
-                }
-            }
-            return result;
+            return source.Engines
+  .Where(rec => rec.Engine.Contains(model.Engine))
+  .Select(CreateModel)
+  .ToList();
+
         }
         public EngineViewModel GetElement(EngineBindingModel model)
         {
@@ -48,32 +37,22 @@ namespace _AbstractFactoryListImplement.Implements
             {
                 return null;
             }
-            foreach (var engine in source.Engines)
-            {
-                if (engine.Id == model.Id || engine.Engine ==
-                model.Engine)
-                {
-                    return CreateModel(engine);
-                }
-            }
-            return null;
+            var product = source.Engines
+ .FirstOrDefault(rec => rec.Engine == model.Engine || rec.Id
+== model.Id);
+            return product != null ? CreateModel(product) : null;
         }
         public void Insert(EngineBindingModel model)
         {
-            var tempEngines = new Engines
+            int maxId = source.Engines.Count > 0 ? source.Details.Max(rec => rec.Id)
+ : 0;
+            var element = new Engines
             {
-                Id = 1,
+                Id = maxId + 1,
                 EngineDetails = new
-            Dictionary<int, int>()
+           Dictionary<int, int>()
             };
-            foreach (var engine in source.Engines)
-            {
-                if (engine.Id >= tempEngines.Id)
-                {
-                    tempEngines.Id = engine.Id + 1;
-                }
-            }
-            source.Engines.Add(CreateModel(model, tempEngines));
+            source.Engines.Add(CreateModel(model, element));
         }
         public void Update(EngineBindingModel model)
         {

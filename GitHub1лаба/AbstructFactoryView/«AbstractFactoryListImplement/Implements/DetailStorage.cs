@@ -20,12 +20,10 @@ namespace _AbstractFactoryListImplement.Implements
         }
         public List<DetailViewModel> GetFullList()
         {
-            var result = new List<DetailViewModel>();
-            foreach (var detail in source.Details)
-            {
-                result.Add(CreateModel(detail));
-            }
-            return result;
+            return source.Details
+            .Select(CreateModel)
+            .ToList();
+
         }
         public List<DetailViewModel> GetFilteredList(DetailBindingModel model)
         {
@@ -33,15 +31,10 @@ namespace _AbstractFactoryListImplement.Implements
             {
                 return null;
             }
-            var result = new List<DetailViewModel>();
-            foreach (var detail in source.Details)
-            {
-                if (detail.Detail.Contains(model.Detail))
-                {
-                    result.Add(CreateModel(detail));
-                }
-            }
-            return result;
+            return source.Details
+            .Where(rec => rec.Detail.Contains(model.Detail))
+            .Select(CreateModel)
+            .ToList();
         }
         public DetailViewModel GetElement(DetailBindingModel model)
         {
@@ -49,27 +42,17 @@ namespace _AbstractFactoryListImplement.Implements
             {
                 return null;
             }
-            foreach (var detail in source.Details)
-            {
-                if (detail.Id == model.Id || detail.Detail ==
-               model.Detail)
-                {
-                    return CreateModel(detail);
-                }
-            }
-            return null;
+            var Detail = source.Details
+            .FirstOrDefault(rec => rec.Detail == model.Detail ||
+            rec.Id == model.Id);
+            return Detail != null ? CreateModel(Detail) : null;
         }
         public void Insert(DetailBindingModel model)
         {
-            var tempDetail = new Details { Id = 1 };
-            foreach (var detail in source.Details)
-            {
-                if (detail.Id >= tempDetail.Id)
-                {
-                    tempDetail.Id = detail.Id + 1;
-                }
-            }
-            source.Details.Add(CreateModel(model, tempDetail));
+            int maxId = source.Details.Count > 0 ? source.Details.Max(rec =>
+rec.Id) : 0;
+            var element = new Details { Id = maxId + 1 };
+            source.Details.Add(CreateModel(model, element));
         }
         public void Update(DetailBindingModel model)
         {
