@@ -1,7 +1,8 @@
 using AbstractFactoryBusinessLogic.BusinessLogic;
 using AbstructFactoryContracts.BusinessLogicContracts;
 using AbstructFactoryContracts.StoragesContracts;
-using _AbstractFactoryListImplement.Implements;
+using AbstractFactoryFileImplement;
+using AbstractFactoryFileImplement.Implements;
 using System;
 using System.Windows.Forms;
 using Unity;
@@ -30,10 +31,19 @@ namespace AbstructFactoryView
         [STAThread]
         static void Main()
         {
-            Application.SetHighDpiMode(HighDpiMode.SystemAware);
+            //Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            Application.ApplicationExit += ApplicationExit;
+            AppDomain.CurrentDomain.UnhandledException += (o, e) => { if (e.IsTerminating) ApplicationExit(null, null); };
+            Application.ThreadException += (o, e) => { Application.Exit(); };
+
             Application.Run(Container.Resolve<FormMain>());
+        }
+        private static void ApplicationExit(object sender, EventArgs e)
+        {
+            FileDataListSingleton.SaveAll();//need to cut
         }
         private static IUnityContainer BuildUnityContainer()
         {
@@ -42,8 +52,6 @@ namespace AbstructFactoryView
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<IOrderStorage, OrderStorage>(new
             HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IWareHouseStorage, WareHouseStorage>(new
-            HierarchicalLifetimeManager());
             currentContainer.RegisterType<IDetailStorage, DetailStorage>(new
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<IDetailLogic, DetailLogic>(new
@@ -51,8 +59,6 @@ namespace AbstructFactoryView
             currentContainer.RegisterType<IOrderLogic, OrderLogic>(new
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<IEngineLogic, EngineLogic>(new
-            HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IWareHouseLogic, WareHouseLogic>(new
             HierarchicalLifetimeManager());
             return currentContainer;
         }
