@@ -1,8 +1,7 @@
 using AbstractFactoryBusinessLogic.BusinessLogic;
 using AbstructFactoryContracts.BusinessLogicContracts;
 using AbstructFactoryContracts.StoragesContracts;
-using AbstractFactoryFileImplement;
-using AbstractFactoryFileImplement.Implements;
+using _AbstractFactoryListImplement.Implements;
 using System;
 using System.Windows.Forms;
 using Unity;
@@ -31,19 +30,10 @@ namespace AbstructFactoryView
         [STAThread]
         static void Main()
         {
-            //Application.SetHighDpiMode(HighDpiMode.SystemAware);
+            Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
-            Application.ApplicationExit += ApplicationExit;
-            AppDomain.CurrentDomain.UnhandledException += (o, e) => { if (e.IsTerminating) ApplicationExit(null, null); };
-            Application.ThreadException += (o, e) => { Application.Exit(); };
-
             Application.Run(Container.Resolve<FormMain>());
-        }
-        private static void ApplicationExit(object sender, EventArgs e)
-        {
-            FileDataListSingleton.SaveAll();//need to cut
         }
         private static IUnityContainer BuildUnityContainer()
         {
