@@ -1,8 +1,6 @@
 ﻿using AbstructFactoryContracts.BindingModels;
 using AbstructFactoryContracts.StoragesContracts;
 using AbstructFactoryContracts.ViewModels;
-using AbstructFactoryContracts.BindingModels;
-using AbstructFactoryContracts.BusinessLogicContracts;
 using _AbstractFactoryListImplement.Models;
 using System;
 using System.Collections.Generic;
@@ -180,12 +178,6 @@ namespace _AbstractFactoryListImplement.Implements
                     Console.WriteLine(componentName + " " + keyValue.Value);
                 }
             }
-        }
-
-        public bool TakeFromWareHouses(Dictionary<int, (string, int)> materials, int reinforcedCount)
-        {
-            Console.WriteLine("Еще не реализован");
-            return false;
         }
     }
 }
