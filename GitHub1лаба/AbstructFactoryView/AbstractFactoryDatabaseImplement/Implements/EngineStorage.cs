@@ -17,7 +17,7 @@ namespace AbstractFactoryDatabaseImplement.Implements
         {
             using var context = new AbstractFactoryDatabase();
             return context.Engines
-            .Include(rec => rec.EngineDetail)
+            .Include(rec => rec.EngineDetails)
             .ThenInclude(rec => rec.Detail)
             .ToList()
             .Select(CreateModel)
@@ -31,7 +31,7 @@ namespace AbstractFactoryDatabaseImplement.Implements
             }
             using var context = new AbstractFactoryDatabase();
             return context.Engines
-            .Include(rec => rec.EngineDetail)
+            .Include(rec => rec.EngineDetails)
             .ThenInclude(rec => rec.Detail)
             .Where(rec => rec.EngineName.Contains(model.Engine))
             .ToList()
@@ -46,7 +46,7 @@ namespace AbstractFactoryDatabaseImplement.Implements
             }
             using var context = new AbstractFactoryDatabase();
             var product = context.Engines
-            .Include(rec => rec.EngineDetail)
+            .Include(rec => rec.EngineDetails)
             .ThenInclude(rec => rec.Detail)
             .FirstOrDefault(rec => rec.EngineName == model.Engine ||
             rec.Id == model.Id);
@@ -148,7 +148,7 @@ namespace AbstractFactoryDatabaseImplement.Implements
                 Id = engine.Id,
                 Engine = engine.EngineName,
                 Price = engine.Price,
-                EngineDetails = engine.EngineDetail.ToDictionary(recPC => recPC.EngineId,
+                EngineDetails = engine.EngineDetails.ToDictionary(recPC => recPC.EngineId,
             recPC => (recPC.Detail?.DetailName, recPC.Count))
             };
         }
