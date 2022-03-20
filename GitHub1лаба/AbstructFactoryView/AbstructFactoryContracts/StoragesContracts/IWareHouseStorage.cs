@@ -17,5 +17,6 @@ namespace AbstructFactoryContracts.StoragesContracts
         void Insert(WareHouseBindingModel model);
         void Update(WareHouseBindingModel model);
         void Delete(WareHouseBindingModel model);
+        bool TakeFromWareHouses(Dictionary<int, (string, int)> materials, int reinforcedCount);
     }
 }

@@ -14,10 +14,14 @@ namespace AbstractFactoryBusinessLogic.BusinessLogic
     public class OrderLogic : IOrderLogic
     {
         private readonly IOrderStorage _orderStorage;
+        private readonly IWareHouseStorage _wareHouseStorage;
+        private readonly IEngineStorage _engineStorage;
 
-        public OrderLogic(IOrderStorage orderStorage)
+        public OrderLogic(IOrderStorage orderStorage, IWareHouseStorage wareHouseStorage, IEngineStorage engineStorage)
         {
             _orderStorage = orderStorage;
+            _wareHouseStorage = wareHouseStorage;
+            _engineStorage = engineStorage;
         }
         public List<OrderViewModel> Read(OrderBindingModel model)
         {
@@ -55,6 +59,10 @@ namespace AbstractFactoryBusinessLogic.BusinessLogic
             if (order.Status != OrderStatus.Принят)
             {
                 throw new Exception("Заказ не в статусе \"Принят\"");
+            }
+            if (!_wareHouseStorage.TakeFromWareHouses(_engineStorage.GetElement(new EngineBindingModel { Id = order.ProductId }).EngineDetails, order.Count))
+            {
+                throw new Exception("Недостаточно материалов");
             }
             _orderStorage.Update(new OrderBindingModel
             {

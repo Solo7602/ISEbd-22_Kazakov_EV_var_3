@@ -17,5 +17,6 @@ namespace AbstructFactoryContracts.StoragesContracts
         void Insert(OrderBindingModel model);
         void Update(OrderBindingModel model);
         void Delete(OrderBindingModel model);
+        
     }
 }
