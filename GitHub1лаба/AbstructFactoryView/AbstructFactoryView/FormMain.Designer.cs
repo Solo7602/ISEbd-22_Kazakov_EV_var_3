@@ -29,6 +29,14 @@
         private void InitializeComponent()
         {
             this.dataGridView = new System.Windows.Forms.DataGridView();
+            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ProductId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Engine = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Count = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Sum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DateCreate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DateImplement = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.buttonCreateOrder = new System.Windows.Forms.Button();
             this.buttonWork = new System.Windows.Forms.Button();
             this.buttonReady = new System.Windows.Forms.Button();
@@ -38,14 +46,8 @@
             this.справочникToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.компонентToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.изделиеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ProductId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Engine = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Count = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Sum = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DateCreate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DateImplement = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.складToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.пополнениеСкладаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -68,6 +70,49 @@
             this.dataGridView.RowTemplate.Height = 25;
             this.dataGridView.Size = new System.Drawing.Size(574, 245);
             this.dataGridView.TabIndex = 0;
+            // 
+            // Id
+            // 
+            this.Id.HeaderText = "ID";
+            this.Id.Name = "Id";
+            this.Id.Visible = false;
+            // 
+            // ProductId
+            // 
+            this.ProductId.HeaderText = "PID";
+            this.ProductId.Name = "ProductId";
+            this.ProductId.Visible = false;
+            // 
+            // Engine
+            // 
+            this.Engine.HeaderText = "Название";
+            this.Engine.Name = "Engine";
+            // 
+            // Count
+            // 
+            this.Count.HeaderText = "Количество";
+            this.Count.Name = "Count";
+            this.Count.Width = 50;
+            // 
+            // Sum
+            // 
+            this.Sum.HeaderText = "Сумма";
+            this.Sum.Name = "Sum";
+            // 
+            // Status
+            // 
+            this.Status.HeaderText = "Статус";
+            this.Status.Name = "Status";
+            // 
+            // DateCreate
+            // 
+            this.DateCreate.HeaderText = "Дата создания";
+            this.DateCreate.Name = "DateCreate";
+            // 
+            // DateImplement
+            // 
+            this.DateImplement.HeaderText = "Дата выполнения";
+            this.DateImplement.Name = "DateImplement";
             // 
             // buttonCreateOrder
             // 
@@ -133,7 +178,9 @@
             // 
             this.справочникToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.компонентToolStripMenuItem,
-            this.изделиеToolStripMenuItem});
+            this.изделиеToolStripMenuItem,
+            this.складToolStripMenuItem,
+            this.пополнениеСкладаToolStripMenuItem});
             this.справочникToolStripMenuItem.Name = "справочникToolStripMenuItem";
             this.справочникToolStripMenuItem.Size = new System.Drawing.Size(87, 20);
             this.справочникToolStripMenuItem.Text = "Справочник";
@@ -141,59 +188,30 @@
             // компонентToolStripMenuItem
             // 
             this.компонентToolStripMenuItem.Name = "компонентToolStripMenuItem";
-            this.компонентToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.компонентToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.компонентToolStripMenuItem.Text = "Компонент";
             this.компонентToolStripMenuItem.Click += new System.EventHandler(this.компонентToolStripMenuItem_Click);
             // 
             // изделиеToolStripMenuItem
             // 
             this.изделиеToolStripMenuItem.Name = "изделиеToolStripMenuItem";
-            this.изделиеToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.изделиеToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.изделиеToolStripMenuItem.Text = "Изделие";
             this.изделиеToolStripMenuItem.Click += new System.EventHandler(this.изделиеToolStripMenuItem_Click);
             // 
-            // Id
+            // складToolStripMenuItem
             // 
-            this.Id.HeaderText = "ID";
-            this.Id.Name = "Id";
-            this.Id.Visible = false;
+            this.складToolStripMenuItem.Name = "складToolStripMenuItem";
+            this.складToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.складToolStripMenuItem.Text = "Склад";
+            this.складToolStripMenuItem.Click += new System.EventHandler(this.складToolStripMenuItem_Click);
             // 
-            // ProductId
+            // пополнениеСкладаToolStripMenuItem
             // 
-            this.ProductId.HeaderText = "PID";
-            this.ProductId.Name = "ProductId";
-            this.ProductId.Visible = false;
-            // 
-            // Engine
-            // 
-            this.Engine.HeaderText = "Название";
-            this.Engine.Name = "Engine";
-            // 
-            // Count
-            // 
-            this.Count.HeaderText = "Количество";
-            this.Count.Name = "Count";
-            this.Count.Width = 50;
-            // 
-            // Sum
-            // 
-            this.Sum.HeaderText = "Сумма";
-            this.Sum.Name = "Sum";
-            // 
-            // Status
-            // 
-            this.Status.HeaderText = "Статус";
-            this.Status.Name = "Status";
-            // 
-            // DateCreate
-            // 
-            this.DateCreate.HeaderText = "Дата создания";
-            this.DateCreate.Name = "DateCreate";
-            // 
-            // DateImplement
-            // 
-            this.DateImplement.HeaderText = "Дата выполнения";
-            this.DateImplement.Name = "DateImplement";
+            this.пополнениеСкладаToolStripMenuItem.Name = "пополнениеСкладаToolStripMenuItem";
+            this.пополнениеСкладаToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.пополнениеСкладаToolStripMenuItem.Text = "Пополнение склада";
+            this.пополнениеСкладаToolStripMenuItem.Click += new System.EventHandler(this.пополнениеСкладаToolStripMenuItem_Click);
             // 
             // FormMain
             // 
@@ -239,5 +257,7 @@
         private DataGridViewTextBoxColumn Status;
         private DataGridViewTextBoxColumn DateCreate;
         private DataGridViewTextBoxColumn DateImplement;
+        private ToolStripMenuItem складToolStripMenuItem;
+        private ToolStripMenuItem пополнениеСкладаToolStripMenuItem;
     }
 }

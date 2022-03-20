@@ -134,5 +134,17 @@ namespace AbstructFactoryView
             var form = Program.Container.Resolve<FormEngines>();
             form.ShowDialog();
         }
+
+        private void складToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormWareHouses>();
+            form.ShowDialog();
+        }
+
+        private void пополнениеСкладаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormReplenishmentWareHouse>();
+            form.ShowDialog();
+        }
     }
 }

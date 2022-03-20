@@ -42,6 +42,8 @@ namespace AbstructFactoryView
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<IOrderStorage, OrderStorage>(new
             HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IWareHouseStorage, WareHouseStorage>(new
+            HierarchicalLifetimeManager());
             currentContainer.RegisterType<IDetailStorage, DetailStorage>(new
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<IDetailLogic, DetailLogic>(new
@@ -49,6 +51,8 @@ namespace AbstructFactoryView
             currentContainer.RegisterType<IOrderLogic, OrderLogic>(new
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<IEngineLogic, EngineLogic>(new
+            HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IWareHouseLogic, WareHouseLogic>(new
             HierarchicalLifetimeManager());
             return currentContainer;
         }

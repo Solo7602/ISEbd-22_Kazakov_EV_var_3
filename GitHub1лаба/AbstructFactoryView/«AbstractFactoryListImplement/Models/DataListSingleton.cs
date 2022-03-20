@@ -14,9 +14,11 @@ namespace _AbstractFactoryListImplement
         private static DataListSingleton instance;
         public List<Details> Details { get; set; }
         public List<Orders> Orders { get; set; }
+        public List<WareHouse> Warehouses { get; set; }
         public List<Engines> Engines { get; set; }
         private DataListSingleton()
         {
+            Warehouses = new List<WareHouse>();
             Details = new List<Details>();
             Orders = new List<Orders>();
             Engines = new List<Engines>();
