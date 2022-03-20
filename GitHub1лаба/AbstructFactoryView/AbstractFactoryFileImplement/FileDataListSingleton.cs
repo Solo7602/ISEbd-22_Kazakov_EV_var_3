@@ -123,7 +123,24 @@ namespace AbstractFactoryFileImplement
         }
         private void SaveOrders()
         {
-            // прописать логику
+            if (Orders != null)
+            {
+                XElement xElement = new XElement("Orders");
+                foreach (Orders order in Orders)
+                {
+                    xElement.Add(new XElement("Order",
+                    new XAttribute("Id", order.Id),
+                    new XElement("ComputerId", order.ProductId),
+                    new XElement("Count", order.Count),
+                    new XElement("Sum", order.Sum),
+                    new XElement("Status", order.Status),
+                    new XElement("DateCreate", order.DateCreate),
+                    new XElement("DateImplement", order.DateImplement)));
+                }
+
+                XDocument xDocument = new XDocument(xElement);
+                xDocument.Save(OrderFileName);
+            }
         }
         private void SaveEngines()
         {
