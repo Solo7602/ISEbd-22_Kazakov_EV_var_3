@@ -58,13 +58,13 @@ namespace AbstractFactoryDatabaseImplement.Implements
             using var transaction = context.Database.BeginTransaction();
             try
             {
-                context.Engines.Add(CreateModel(model, new Engine(),
-                context));
+                CreateModel(model, new Engine(), context);
                 context.SaveChanges();
                 transaction.Commit();
             }
-            catch
+            catch (Exception e)
             {
+                Console.WriteLine(e.ToString());
                 transaction.Rollback();
                 throw;
             }
@@ -111,6 +111,11 @@ namespace AbstractFactoryDatabaseImplement.Implements
         {
             engine.EngineName = model.Engine;
             engine.Price = model.Price;
+            if (engine.Id == 0)
+            {
+                context.Engines.Add(engine);
+                context.SaveChanges();
+            }
             if (model.Id.HasValue)
             {
                 var productComponents = context.EngineDetail.Where(rec =>
