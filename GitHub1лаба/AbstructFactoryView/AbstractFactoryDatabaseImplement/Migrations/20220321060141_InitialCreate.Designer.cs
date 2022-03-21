@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AbstractFactoryDatabaseImplement.Migrations
 {
     [DbContext(typeof(AbstractFactoryDatabase))]
-    [Migration("20220320165300_InitialMade")]
-    partial class InitialMade
+    [Migration("20220321060141_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
