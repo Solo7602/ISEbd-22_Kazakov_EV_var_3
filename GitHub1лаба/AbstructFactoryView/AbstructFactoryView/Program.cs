@@ -2,7 +2,7 @@ using AbstractFactoryBusinessLogic.BusinessLogic;
 using AbstructFactoryContracts.BusinessLogicContracts;
 using AbstructFactoryContracts.StoragesContracts;
 using AbstractFactoryFileImplement;
-using AbstractFactoryFileImplement.Implements;
+using AbstractFactoryDatabaseImplement.Implements;
 using System;
 using System.Windows.Forms;
 using Unity;
@@ -31,7 +31,7 @@ namespace AbstructFactoryView
         [STAThread]
         static void Main()
         {
-            //Application.SetHighDpiMode(HighDpiMode.SystemAware);
+            
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
