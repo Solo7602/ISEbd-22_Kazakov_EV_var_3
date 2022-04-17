@@ -27,7 +27,7 @@ namespace AbstructFactoryView
                 Dock = DockStyle.Fill
             };
             reportViewer.LocalReport.LoadReportDefinition(new
-           FileStream("../../../ReportOrders.rdlc", FileMode.Open));
+           FileStream("../../../ReportOrder.rdlc", FileMode.Open));
             Controls.Clear();
             Controls.Add(reportViewer);
             Controls.Add(panel);
