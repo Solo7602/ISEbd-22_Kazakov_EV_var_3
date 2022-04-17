@@ -1,9 +1,10 @@
 ﻿using AbstractFactoryClientApp.Models;
 using AbstructFactoryContracts.BindingModels;
 using AbstructFactoryContracts.ViewModels;
-using AbstructFactoryContracts.StoragesContracts
+using AbstructFactoryContracts.StoragesContracts;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using AbstractShowClientApp;
 
 namespace AbstractFactoryClientApp.Controllers
 {
@@ -21,8 +22,7 @@ namespace AbstractFactoryClientApp.Controllers
                 return Redirect("~/Home/Enter");
             }
             return
-            View(APIClient.GetRequest<List<OrderViewModel>>($"api/main/getorders?clientId={Program.Cl
-ient.Id}"));
+            View(APIClient.GetRequest<List<OrderViewModel>>($"api/main/getorders?clientId={Program.Client.Id}"));
         }
         [HttpGet]
         public IActionResult Privacy()
@@ -76,8 +76,7 @@ ient.Id}"));
             if (!string.IsNullOrEmpty(login) && !string.IsNullOrEmpty(password))
             {
                 Program.Client =
-                APIClient.GetRequest<ClientViewModel>($"api/client/login?login={login}&password={password
-                }");
+                APIClient.GetRequest<ClientViewModel>($"api/client/login?login={login}&password={password}");
                 if (Program.Client == null)
                 {
                     throw new Exception("Неверный логин/пароль");
