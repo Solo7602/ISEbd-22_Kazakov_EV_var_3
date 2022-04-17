@@ -24,6 +24,7 @@ namespace AbstractFactoryDatabaseImplement.Implements
                     ProductId = rec.EngineId,
                     Engine = rec.Engine.EngineName,
                     Count = rec.Count,
+                    ClientFIO = rec.Client.ClientFIO,
                     Sum = rec.Sum,
                     Status = rec.Status,
                     DateCreate = rec.DateCreate,
@@ -40,11 +41,16 @@ namespace AbstractFactoryDatabaseImplement.Implements
             }
             using (AbstractFactoryDatabase context = new AbstractFactoryDatabase())
             {
-                return context.Orders.Include(rec => rec.Engine)
-                 .Where(rec => rec.Id.Equals(model.Id) || rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
+                return context.Orders.Include(rec => rec.Engine).Include(rec => rec.Client)
+                .Where(rec => (!model.DateFrom.HasValue && !model.DateTo.HasValue && rec.DateCreate.Date == model.DateCreate.Date) ||
+                (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate.Date
+                >= model.DateFrom.Value.Date && rec.DateCreate.Date <= model.DateTo.Value.Date) ||
+                (model.ClientId.HasValue && rec.ClientId == model.ClientId))
                 .Select(rec => new OrderViewModel
                 {
                     Id = rec.Id,
+                    ClientId = rec.ClientId,
+                    ClientFIO = rec.Client.ClientFIO,
                     ProductId = rec.EngineId,
                     Engine = rec.Engine.EngineName,
                     Count = rec.Count,
@@ -81,6 +87,27 @@ namespace AbstractFactoryDatabaseImplement.Implements
                 null;
             }
         }
+        public void Update(OrderBindingModel model)
+        {
+            using var context = new AbstractFactoryDatabase();
+            using var transaction = context.Database.BeginTransaction();
+            try
+            {
+                var element = context.Orders.FirstOrDefault(rec => rec.Id == model.Id);
+                if (element == null)
+                {
+                    throw new Exception("Элемент не найден");
+                }
+                CreateModel(model, element);
+                context.SaveChanges();
+                transaction.Commit();
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
+            }
+        }
         public void Insert(OrderBindingModel model)
         {
             using (AbstractFactoryDatabase context = new AbstractFactoryDatabase())
@@ -89,6 +116,7 @@ namespace AbstractFactoryDatabaseImplement.Implements
                 {
                     EngineId = model.EngineId,
                     Count = model.Count,
+                    ClientId = (int)model.ClientId,
                     Sum = model.Sum,
                     Status = model.Status,
                     DateCreate = model.DateCreate,
@@ -97,25 +125,6 @@ namespace AbstractFactoryDatabaseImplement.Implements
                 context.Orders.Add(order);
                 context.SaveChanges();
                 CreateModel(model, order);
-                context.SaveChanges();
-            }
-        }
-        public void Update(OrderBindingModel model)
-        {
-            using (AbstractFactoryDatabase context = new AbstractFactoryDatabase())
-            {
-                Order element = context.Orders.FirstOrDefault(rec => rec.Id == model.Id);
-                if (element == null)
-                {
-                    throw new Exception("Элемент не найден");
-                }
-                element.EngineId = model.EngineId;
-                element.Count = model.Count;
-                element.Sum = model.Sum;
-                element.Status = model.Status;
-                element.DateCreate = model.DateCreate;
-                element.DateImplement = model.DateImplement;
-                CreateModel(model, element);
                 context.SaveChanges();
             }
         }

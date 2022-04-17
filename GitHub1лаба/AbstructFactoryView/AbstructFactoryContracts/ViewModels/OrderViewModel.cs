@@ -16,6 +16,9 @@ namespace AbstructFactoryContracts.ViewModels
         public int ProductId { get; set; }
         [DisplayName("Изделие")]
         public string Engine { get; set; }
+        public int ClientId { get; set; }
+        [DisplayName("ФИО клиента")]
+        public string ClientFIO { get; set; }
         [DisplayName("Количество")]
         public int Count { get; set; }
         [DisplayName("Сумма")]
