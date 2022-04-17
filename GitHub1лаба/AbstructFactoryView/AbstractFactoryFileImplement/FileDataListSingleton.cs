@@ -15,14 +15,17 @@ namespace AbstractFactoryFileImplement
         private readonly string DetailFileName = "Detail.xml";
         private readonly string OrderFileName = "Order.xml";
         private readonly string EngineFileName = "Engine.xml";
+        private readonly string WareHouseFileName = "WareHouse.xml";
         public List<Details> Details { get; set; }
         public List<Orders> Orders { get; set; }
         public List<Engines> Engines { get; set; }
+        public List<WareHouse> WareHouses { get; set; }
         private FileDataListSingleton()
         {
             Details = LoadDetails();
             Orders = LoadOrders();
             Engines = LoadEngines();
+            WareHouses = LoadWareHouses();
         }
         public static FileDataListSingleton GetInstance()
         {
@@ -37,6 +40,7 @@ namespace AbstractFactoryFileImplement
             GetInstance().SaveDetails();
             GetInstance().SaveOrders();
             GetInstance().SaveEngines();
+            GetInstance().SaveWareHouses();
         }
         private List<Details> LoadDetails()
         {
@@ -106,6 +110,34 @@ namespace AbstractFactoryFileImplement
             }
             return list;
         }
+        private List<WareHouse> LoadWareHouses()
+        {
+            var list = new List<WareHouse>();
+            if (File.Exists(WareHouseFileName))
+            {
+                var xDocument = XDocument.Load(WareHouseFileName);
+                var xElements = xDocument.Root.Elements("WareHouse").ToList();
+                foreach (var elem in xElements)
+                {
+                    var CompComp = new Dictionary<int, int>();
+                    foreach (var component in
+                   elem.Element("WareHouseComponents").Elements("WareHouseComponent").ToList())
+                    {
+                        CompComp.Add(Convert.ToInt32(component.Element("Key").Value),
+                       Convert.ToInt32(component.Element("Value").Value));
+                    }
+                    list.Add(new WareHouse
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        WareHouseName = elem.Element("WareHouseName").Value,
+                        ResponsiblePersonFCS = elem.Element("ResponsiblePersonFCS").Value,
+                        DateCreate = Convert.ToDateTime(elem.Element("DateCreate").Value),
+                        WareHouseComponents = CompComp
+                    });
+                }
+            }
+            return list;
+        }
         private void SaveDetails()
         {
             if (Details != null)
@@ -123,7 +155,24 @@ namespace AbstractFactoryFileImplement
         }
         private void SaveOrders()
         {
-            // прописать логику
+            if (Orders != null)
+            {
+                XElement xElement = new XElement("Orders");
+                foreach (Orders order in Orders)
+                {
+                    xElement.Add(new XElement("Order",
+                    new XAttribute("Id", order.Id),
+                    new XElement("ProductId", order.ProductId),
+                    new XElement("Count", order.Count),
+                    new XElement("Sum", order.Sum),
+                    new XElement("Status", order.Status),
+                    new XElement("DateCreate", order.DateCreate),
+                    new XElement("DateImplement", order.DateImplement)));
+                }
+
+                XDocument xDocument = new XDocument(xElement);
+                xDocument.Save(OrderFileName);
+            }
         }
         private void SaveEngines()
         {
@@ -147,6 +196,31 @@ namespace AbstractFactoryFileImplement
                 }
                 var xDocument = new XDocument(xElement);
                 xDocument.Save(EngineFileName);
+            }
+        }
+        private void SaveWareHouses()
+        {
+            if (WareHouses != null)
+            {
+                var xElement = new XElement("WareHouses");
+                foreach (var wareHouse in WareHouses)
+                {
+                    var wareHouseElement = new XElement("WareHouseComponents");
+                    foreach (var component in wareHouse.WareHouseComponents)
+                    {
+                        wareHouseElement.Add(new XElement("WareHouseComponent",
+                        new XElement("Key", component.Key),
+                        new XElement("Value", component.Value)));
+                    }
+                    xElement.Add(new XElement("WareHouse",
+                     new XAttribute("Id", wareHouse.Id),
+                     new XElement("WareHouseName", wareHouse.WareHouseName),
+                     new XElement("ResponsiblePersonFCS", wareHouse.ResponsiblePersonFCS),
+                     new XElement("DateCreate", wareHouse.DateCreate),
+                     wareHouseElement));
+                }
+                var xDocument = new XDocument(xElement);
+                xDocument.Save(WareHouseFileName);
             }
         }
     }
