@@ -2,12 +2,14 @@ using AbstractFactoryBusinessLogic.BusinessLogic;
 using AbstructFactoryContracts.BusinessLogicContracts;
 using AbstructFactoryContracts.StoragesContracts;
 using AbstractFactoryFileImplement;
-using AbstractFactoryFileImplement.Implements;
+using AbstractFactoryDatabaseImplement.Implements;
 using System;
 using System.Windows.Forms;
 using Unity;
 using Unity.Lifetime;
-
+using AbstructFactoryContracts.BusinessLogicsContracts;
+using AbstractFactoryBusinessLogic.OfficePackage;
+using AbstractFactoryBusinessLogic.OfficePackage.Implements;
 
 namespace AbstructFactoryView
 {
@@ -59,6 +61,14 @@ namespace AbstructFactoryView
             currentContainer.RegisterType<IOrderLogic, OrderLogic>(new
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<IEngineLogic, EngineLogic>(new
+            HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IReportLogic, ReportLogic>(new
+            HierarchicalLifetimeManager());
+            currentContainer.RegisterType<AbstractSaveToExcel, SaveToExcel>(new
+            HierarchicalLifetimeManager());
+            currentContainer.RegisterType<AbstractSaveToWord, SaveToWord>(new
+            HierarchicalLifetimeManager());
+            currentContainer.RegisterType<AbstractSaveToPdf, SaveToPdf>(new
             HierarchicalLifetimeManager());
             return currentContainer;
         }

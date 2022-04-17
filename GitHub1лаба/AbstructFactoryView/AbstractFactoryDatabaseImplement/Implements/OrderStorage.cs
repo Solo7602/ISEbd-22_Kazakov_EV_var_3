@@ -41,7 +41,7 @@ namespace AbstractFactoryDatabaseImplement.Implements
             using (AbstractFactoryDatabase context = new AbstractFactoryDatabase())
             {
                 return context.Orders.Include(rec => rec.Engine)
-                .Where(rec => rec.EngineId == model.EngineId)
+                 .Where(rec => rec.Id.Equals(model.Id) || rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
                 .Select(rec => new OrderViewModel
                 {
                     Id = rec.Id,

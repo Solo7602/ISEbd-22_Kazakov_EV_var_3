@@ -100,7 +100,6 @@ namespace AbstractFactoryDatabaseImplement.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DateImplement")
-                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<int>("EngineId")

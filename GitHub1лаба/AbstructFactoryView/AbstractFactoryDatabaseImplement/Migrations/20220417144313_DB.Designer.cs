@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AbstractFactoryDatabaseImplement.Migrations
 {
     [DbContext(typeof(AbstractFactoryDatabase))]
-    [Migration("20220320165300_InitialMade")]
-    partial class InitialMade
+    [Migration("20220417144313_DB")]
+    partial class DB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -102,7 +102,6 @@ namespace AbstractFactoryDatabaseImplement.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DateImplement")
-                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<int>("EngineId")

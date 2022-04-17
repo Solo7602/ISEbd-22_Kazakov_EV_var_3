@@ -14,10 +14,11 @@ namespace AbstractFactoryDatabaseImplement
         {
             if (optionsBuilder.IsConfigured == false)
             {
-                optionsBuilder.UseSqlServer(@"Data Source=(localdb)\mssqllocaldb;Initial Catalog=AbstractFactoryDatabase;Integrated Security=True;MultipleActiveResultSets=True;");
+                optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=EnginesDatabase;Trusted_Connection=True");
             }
             base.OnConfiguring(optionsBuilder);
         }
+        
         public virtual DbSet<Detail> Detail { set; get; }
         public virtual DbSet<Engine> Engines { set; get; }
         public virtual DbSet<EngineDetail> EngineDetail { set; get; }

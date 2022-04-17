@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AbstractFactoryDatabaseImplement.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class DB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -74,7 +74,7 @@ namespace AbstractFactoryDatabaseImplement.Migrations
                     Sum = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     DateCreate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DateImplement = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DateImplement = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {

@@ -30,7 +30,7 @@ namespace AbstractFactoryFileImplement.Implements
                 return null;
             }
             return source.Orders
-            .Where(rec => rec.ProductId.ToString().Contains(model.EngineId.ToString()))
+            .Where(rec => rec.Id.Equals(model.Id) || rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
             .Select(CreateModel)
             .ToList();
         }

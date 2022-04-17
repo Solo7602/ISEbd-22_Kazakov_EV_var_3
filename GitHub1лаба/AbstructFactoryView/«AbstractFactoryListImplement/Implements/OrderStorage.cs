@@ -37,7 +37,7 @@ namespace _AbstractFactoryListImplement.Implements
             var result = new List<OrderViewModel>();
             foreach (var order in source.Orders)
             {
-                if (order.ProductId.ToString().Contains(model.EngineId.ToString()))
+                if (order.Id.ToString().Contains(model.EngineId.ToString()) || order.DateCreate >= model.DateFrom && order.DateCreate <= model.DateTo)
                 {
                     result.Add(CreateModel(order));
                 }

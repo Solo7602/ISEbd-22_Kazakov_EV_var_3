@@ -20,8 +20,7 @@ namespace AbstractFactoryDatabaseImplement.Models
         public OrderStatus Status { get; set; }
         [Required]
         public DateTime DateCreate { get; set; }
-        [Required]
         public DateTime? DateImplement { get; set; }
-        public virtual Engine Engine { get; set; }
+        public virtual Engine Engine { get; set; } 
     }
 }
