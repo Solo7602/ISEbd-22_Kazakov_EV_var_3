@@ -16,6 +16,7 @@ namespace AbstructFactoryContracts.ViewModels
         public int ProductId { get; set; }
         [DisplayName("Изделие")]
         public string Engine { get; set; }
+        public int? ImplementerId { get; set; }
         public int ClientId { get; set; }
         [DisplayName("ФИО клиента")]
         public string ClientFIO { get; set; }
@@ -24,6 +25,7 @@ namespace AbstructFactoryContracts.ViewModels
         [DisplayName("Сумма")]
         public decimal Sum { get; set; }
         [DisplayName("Статус")]
+        public string ImplementerFIO { get; set; }
         public OrderStatus Status { get; set; }
         [DisplayName("Дата создания")]
         public DateTime DateCreate { get; set; }

@@ -18,6 +18,7 @@ namespace AbstractFactoryDatabaseImplement.Implements
             using (AbstractFactoryDatabase context = new AbstractFactoryDatabase())
             {
                 return context.Orders.Include(rec => rec.Engine)
+                .Include(rec=>rec.Implementer)
                 .Select(rec => new OrderViewModel
                 {
                     Id = rec.Id,
@@ -25,6 +26,7 @@ namespace AbstractFactoryDatabaseImplement.Implements
                     Engine = rec.Engine.EngineName,
                     Count = rec.Count,
                     ClientFIO = rec.Client.ClientFIO,
+                    ImplementerFIO = rec.Implementer.ImplementerFIO,
                     Sum = rec.Sum,
                     Status = rec.Status,
                     DateCreate = rec.DateCreate,

@@ -24,6 +24,7 @@ namespace AbstractFactoryDatabaseImplement
         public virtual DbSet<EngineDetail> EngineDetail { set; get; }
         public virtual DbSet<Order> Orders { set; get; }
         public virtual DbSet<Client> Clients { set; get; }
+        public virtual DbSet<Implementer> Implementers { set; get; }
 
     }
 }

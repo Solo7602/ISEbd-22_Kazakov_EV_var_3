@@ -61,6 +61,7 @@ namespace AbstractFactoryBusinessLogic.BusinessLogic
                 Id = order.Id,
                 EngineId = order.ProductId,
                 Count = order.Count,
+                ImplementerId = model.ImplementerId,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
                 DateImplement = DateTime.Now,
@@ -85,6 +86,7 @@ namespace AbstractFactoryBusinessLogic.BusinessLogic
             {
                 Id = order.Id,
                 EngineId = order.ProductId,
+                ImplementerId = model.ImplementerId,
                 Count = order.Count,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,

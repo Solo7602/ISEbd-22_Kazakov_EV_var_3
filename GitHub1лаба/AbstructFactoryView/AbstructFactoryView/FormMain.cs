@@ -1,4 +1,5 @@
-﻿using AbstructFactoryContracts.BindingModels;
+﻿using AbstractFactoryBusinessLogic.BusinessLogic;
+using AbstructFactoryContracts.BindingModels;
 using AbstructFactoryContracts.BusinessLogicContracts;
 using AbstructFactoryContracts.BusinessLogicsContracts;
 using System;
@@ -18,9 +19,13 @@ namespace AbstructFactoryView
     {
         private readonly IOrderLogic _orderLogic;
         private readonly IReportLogic _reportLogic;
-        public FormMain(IOrderLogic orderLogic, IReportLogic reportLogic)
+        private readonly WorkModeling _workModeling;
+        private readonly IImplementerLogic _implementerLogic;
+        public FormMain(IOrderLogic orderLogic, IReportLogic reportLogic, WorkModeling workModeling, IImplementerLogic implementerLogic)
         {
             InitializeComponent();
+            _implementerLogic = implementerLogic;
+            _workModeling = workModeling;
             _orderLogic = orderLogic;
             _reportLogic = reportLogic;
         }
@@ -38,7 +43,7 @@ namespace AbstructFactoryView
                     dataGridView.Rows.Clear();
                     foreach (var order in list)
                     {
-                        dataGridView.Rows.Add(new object[] { order.Id, order.ProductId, order.Engine, order.Count, order.Sum,
+                        dataGridView.Rows.Add(new object[] { order.Id, order.ProductId, order.Engine, order.Count,order.ClientFIO, order.ImplementerFIO, order.Sum,
                             order.Status,order.DateCreate, order.DateImplement});
                     }
                 }
@@ -57,74 +62,7 @@ namespace AbstructFactoryView
             LoadData();
         }
 
-        private void buttonWork_Click(object sender, EventArgs e)
-        {
-            if (dataGridView.SelectedRows.Count == 1)
-            {
-                int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
-                try
-                {
-                    _orderLogic.TakeOrderInWork(new ChangeStatusBindingModel
-                    {
-                        OrderId =
-                   id
-                    });
-                    LoadData();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-                   MessageBoxIcon.Error);
-                }
-            }
-        }
 
-        private void buttonReady_Click(object sender, EventArgs e)
-        {
-            if (dataGridView.SelectedRows.Count == 1)
-            {
-                int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
-                try
-                {
-                    _orderLogic.FinishOrder(new ChangeStatusBindingModel
-                    {
-                        OrderId = id
-                    });
-                    LoadData();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-                   MessageBoxIcon.Error);
-                }
-            }
-        }
-
-        private void buttonOrder_Click(object sender, EventArgs e)
-        {
-            if (dataGridView.SelectedRows.Count == 1)
-            {
-                int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
-                try
-                {
-                    _orderLogic.DeliveryOrder(new ChangeStatusBindingModel
-                    {
-                        OrderId = id
-                    });
-                    LoadData();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-                   MessageBoxIcon.Error);
-                }
-            }
-            }
-
-            private void buttonRef_Click(object sender, EventArgs e)
-        {
-            LoadData();
-        }
 
         private void компонентToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -164,6 +102,57 @@ namespace AbstructFactoryView
         {
             var form = Program.Container.Resolve<FormReport>();
             form.ShowDialog();
+        }
+
+        private void buttonCreate_Click(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormCreateOrder>();
+            form.ShowDialog();
+            LoadData();
+        }
+
+        private void buttonRef_Click(object sender, EventArgs e)
+        {
+            LoadData();
+        }
+
+        private void buttonOrderGive_Click(object sender, EventArgs e)
+        {
+            if (dataGridView.SelectedRows.Count == 1)
+            {
+                int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
+                try
+                {
+                    _orderLogic.DeliveryOrder(new ChangeStatusBindingModel
+                    {
+                        OrderId = id
+                    });
+                    LoadData();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+                   MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void клиентыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormClients>();
+            form.ShowDialog();
+        }
+
+        private void исполнителиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormImplementers>();
+            form.ShowDialog();
+        }
+
+        private void запускРаботToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _workModeling.DoWork(_implementerLogic, _orderLogic);
+            LoadData();
         }
     }
 }
