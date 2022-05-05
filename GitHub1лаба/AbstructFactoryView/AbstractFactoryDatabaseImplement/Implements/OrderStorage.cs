@@ -89,23 +89,21 @@ namespace AbstractFactoryDatabaseImplement.Implements
         }
         public void Update(OrderBindingModel model)
         {
-            using var context = new AbstractFactoryDatabase();
-            using var transaction = context.Database.BeginTransaction();
-            try
+            using (AbstractFactoryDatabase context = new AbstractFactoryDatabase())
             {
-                var element = context.Orders.FirstOrDefault(rec => rec.Id == model.Id);
+                Order element = context.Orders.FirstOrDefault(rec => rec.Id == model.Id);
                 if (element == null)
                 {
                     throw new Exception("Элемент не найден");
                 }
+                element.EngineId = model.EngineId;
+                element.Count = model.Count;
+                element.Sum = model.Sum;
+                element.Status = model.Status;
+                element.DateCreate = model.DateCreate;
+                element.DateImplement = model.DateImplement;
                 CreateModel(model, element);
                 context.SaveChanges();
-                transaction.Commit();
-            }
-            catch
-            {
-                transaction.Rollback();
-                throw;
             }
         }
         public void Insert(OrderBindingModel model)
