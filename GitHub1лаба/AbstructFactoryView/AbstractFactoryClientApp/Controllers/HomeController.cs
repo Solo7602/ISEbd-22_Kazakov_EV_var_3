@@ -112,7 +112,7 @@ namespace AbstractFactoryClientApp.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            ViewBag.Products =
+            ViewBag.Engines =
             APIClient.GetRequest<List<EngineViewModel>>("api/main/getproductlist");
             return View();
         }

@@ -73,12 +73,17 @@ namespace AbstractFactoryDatabaseImplement.Implements
             using (AbstractFactoryDatabase context = new AbstractFactoryDatabase())
             {
                 Order order = context.Orders.Include(rec => rec.Engine)
-                .FirstOrDefault(rec => rec.Id == model.Id);
+                 .Include(rec => rec.Implementer)
+                 .Include(rec => rec.Client)
+                 .FirstOrDefault(rec => rec.Id == model.Id);
                 return order != null ?
                 new OrderViewModel
                 {
                     Id = order.Id,
                     ProductId = order.EngineId,
+                    ImplementerId = order.ImplementerId,
+                    ClientId = order.ClientId,
+                    ClientFIO = order.Client.ClientFIO,
                     Engine = order.Engine.EngineName,
                     Count = order.Count,
                     Sum = order.Sum,
@@ -119,6 +124,7 @@ namespace AbstractFactoryDatabaseImplement.Implements
                     EngineId = model.EngineId,
                     Count = model.Count,
                     ClientId = (int)model.ClientId,
+                    ImplementerId = model.ImplementerId,
                     Sum = model.Sum,
                     Status = model.Status,
                     DateCreate = model.DateCreate,
@@ -156,13 +162,27 @@ namespace AbstractFactoryDatabaseImplement.Implements
             using (AbstractFactoryDatabase context = new AbstractFactoryDatabase())
             {
                 Engine element = context.Engines.FirstOrDefault(rec => rec.Id == model.EngineId);
+                Implementer impl = context.Implementers.FirstOrDefault(rec => rec.Id == model.ImplementerId);
+                if (impl != null)
+                {
+                    if (impl.Orders == null)
+                    {
+                        impl.Orders = new List<Order>();
+                        context.Implementers.Update(impl);
+                        context.SaveChanges();
+                    }
+                    impl.Orders.Add(order);
+                }
                 if (element != null)
                 {
                     if (element.Orders == null)
                     {
                         element.Orders = new List<Order>();
                     }
+
+
                     element.Orders.Add(order);
+
                     context.Engines.Update(element);
                     context.SaveChanges();
                 }

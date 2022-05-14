@@ -10,10 +10,9 @@ namespace AbstractFactoryDatabaseImplement.Models
 {
     public class Order
     {
-        public int Id { get; set; } 
-        public int EngineId { get; set; }
-        public virtual Client Client { get; set; }
+        public int Id { get; set; }
         public int ClientId { get; set; }
+        public int EngineId { get; set; }
         public int? ImplementerId { get; set; }
         [Required]
         public int Count { get; set; }
@@ -25,6 +24,7 @@ namespace AbstractFactoryDatabaseImplement.Models
         public DateTime DateCreate { get; set; }
         public DateTime? DateImplement { get; set; }
         public virtual Engine Engine { get; set; }
+        public virtual Client Client { get; set; }
         public virtual Implementer Implementer { get; set; }
     }
 }

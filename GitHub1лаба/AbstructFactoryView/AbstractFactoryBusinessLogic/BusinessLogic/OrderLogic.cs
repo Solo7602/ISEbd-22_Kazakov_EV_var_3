@@ -37,6 +37,7 @@ namespace AbstractFactoryBusinessLogic.BusinessLogic
             {
                 EngineId = model.ProductId,
                 Count = model.Count,
+                ClientId = model.ClientId,
                 Sum = model.Sum,
                 DateCreate = DateTime.Now,
                 Status = OrderStatus.Принят

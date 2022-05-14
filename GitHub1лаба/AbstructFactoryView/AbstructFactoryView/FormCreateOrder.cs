@@ -17,11 +17,13 @@ namespace AbstructFactoryView
     {
         private readonly IEngineLogic _logicP;
         private readonly IOrderLogic _logicO;
-        public FormCreateOrder(IEngineLogic logicP, IOrderLogic logicO)
+        private readonly IClientLogic _logicC;
+        public FormCreateOrder(IEngineLogic logicP, IOrderLogic logicO, IClientLogic logicC)
         {
             InitializeComponent();
             _logicP = logicP;
             _logicO = logicO;
+            _logicC = logicC;
         }
         private void FormCreateOrder_Load(object sender, EventArgs e)
         {
@@ -34,6 +36,15 @@ namespace AbstructFactoryView
                     comboBoxEngine.ValueMember = "Id";
                     comboBoxEngine.DataSource = list;
                     comboBoxEngine.SelectedItem = null;
+                    
+                }
+                var listClients = _logicC.Read(null);
+                foreach(var cl in listClients)
+                {
+                    comboBoxClient.DisplayMember = "ClientFIO";
+                    comboBoxClient.ValueMember = "Id";
+                    comboBoxClient.DataSource = listClients;
+                    comboBoxClient.SelectedItem = null;
                 }
             }
             catch (Exception ex)
@@ -90,6 +101,7 @@ namespace AbstructFactoryView
             {
                 _logicO.CreateOrder(new CreateOrderBindingModel
                 {
+                    ClientId = Convert.ToInt32(comboBoxClient.SelectedValue),
                     ProductId = Convert.ToInt32(comboBoxEngine.SelectedValue),
                     Count = Convert.ToInt32(textBoxNum.Text),
                     Sum = Convert.ToDecimal(textBoxSum.Text)

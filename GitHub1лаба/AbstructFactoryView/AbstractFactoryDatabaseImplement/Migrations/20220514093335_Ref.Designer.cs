@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AbstractFactoryDatabaseImplement.Migrations
 {
     [DbContext(typeof(AbstractFactoryDatabase))]
-    [Migration("20220417144313_DB")]
-    partial class DB
+    [Migration("20220514093335_Ref")]
+    partial class Ref
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,31 @@ namespace AbstractFactoryDatabaseImplement.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("AbstractFactoryDatabaseImplement.Models.Client", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ClientFIO")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Clients");
+                });
 
             modelBuilder.Entity("AbstractFactoryDatabaseImplement.Models.Detail", b =>
                 {
@@ -87,6 +112,29 @@ namespace AbstractFactoryDatabaseImplement.Migrations
                     b.ToTable("EngineDetail");
                 });
 
+            modelBuilder.Entity("AbstractFactoryDatabaseImplement.Models.Implementer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ImplementerFIO")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PauseTime")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WorkingTime")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Implementers");
+                });
+
             modelBuilder.Entity("AbstractFactoryDatabaseImplement.Models.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -94,6 +142,9 @@ namespace AbstractFactoryDatabaseImplement.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Count")
                         .HasColumnType("int");
@@ -107,6 +158,10 @@ namespace AbstractFactoryDatabaseImplement.Migrations
                     b.Property<int>("EngineId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ImplementerId")
+                        .IsRequired()
+                        .HasColumnType("int");
+
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
@@ -115,7 +170,11 @@ namespace AbstractFactoryDatabaseImplement.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ClientId");
+
                     b.HasIndex("EngineId");
+
+                    b.HasIndex("ImplementerId");
 
                     b.ToTable("Orders");
                 });
@@ -141,13 +200,34 @@ namespace AbstractFactoryDatabaseImplement.Migrations
 
             modelBuilder.Entity("AbstractFactoryDatabaseImplement.Models.Order", b =>
                 {
+                    b.HasOne("AbstractFactoryDatabaseImplement.Models.Client", "Client")
+                        .WithMany("Orders")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("AbstractFactoryDatabaseImplement.Models.Engine", "Engine")
                         .WithMany("Orders")
                         .HasForeignKey("EngineId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("AbstractFactoryDatabaseImplement.Models.Implementer", "Implementer")
+                        .WithMany("Orders")
+                        .HasForeignKey("ImplementerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+
                     b.Navigation("Engine");
+
+                    b.Navigation("Implementer");
+                });
+
+            modelBuilder.Entity("AbstractFactoryDatabaseImplement.Models.Client", b =>
+                {
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("AbstractFactoryDatabaseImplement.Models.Detail", b =>
@@ -159,6 +239,11 @@ namespace AbstractFactoryDatabaseImplement.Migrations
                 {
                     b.Navigation("EngineDetails");
 
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("AbstractFactoryDatabaseImplement.Models.Implementer", b =>
+                {
                     b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618

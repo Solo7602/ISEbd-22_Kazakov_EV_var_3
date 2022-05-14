@@ -8,7 +8,7 @@ ViewData["Title"] = "Create";
 <div class="row">
 <div class="col-4">Изделие:</div>
 <div class="col-8">
-<select id="product" name="product" class="form-control" aspitems="@(new SelectList(@ViewBag.Engines,"Id", "EngineName"))"></select>
+<select id="engine" name="engine" class="form-control" asp-items="@(new SelectList(@ViewBag.Engines,"Id", "Engine"))"></select>
 </div>
 </div>
 <div class="row">
@@ -26,7 +26,7 @@ ViewData["Title"] = "Create";
 </div>
 </form>
 <script>
-$('#product').on('change', function () {
+$('#engine').on('change', function () {
 check();
 });
 $('#count').on('change', function () {
@@ -34,12 +34,12 @@ check();
 });
 function check() {
     var count = $('#count').val();
-var product = $('#product').val();
-if (count && product) {
+var engine = $('#engine').val();
+if (count && engine) {
 $.ajax({
 method: "POST",
 url: "/Home/Calc",
-data: { count: count, product: product },
+data: { count: count, engine: engine },
 success: function (result) {
 $("#sum").val(result);
 }

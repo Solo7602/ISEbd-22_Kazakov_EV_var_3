@@ -39,6 +39,8 @@ namespace AbstructFactoryView
 
             Application.ApplicationExit += ApplicationExit;
             AppDomain.CurrentDomain.UnhandledException += (o, e) => { if (e.IsTerminating) ApplicationExit(null, null); };
+           //var logic = Container.Resolve<IClientLogic>();
+           //logic.CreateOrUpdate(new AbstructFactoryContracts.BindingModels.ClientBindingModel { ClientFIO = "admin", Email = "admin", Password = "1" });
             Application.ThreadException += (o, e) => { Application.Exit(); };
 
             Application.Run(Container.Resolve<FormMain>());
