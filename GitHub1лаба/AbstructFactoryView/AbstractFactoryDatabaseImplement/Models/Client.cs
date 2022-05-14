@@ -23,5 +23,6 @@ namespace AbstractFactoryDatabaseImplement.Models
 
         [ForeignKey("ClientId")]
         public List<Order> Orders { get; set; }
+        public List<MessageInfo> messageInfos { get; set; }
     }
 }

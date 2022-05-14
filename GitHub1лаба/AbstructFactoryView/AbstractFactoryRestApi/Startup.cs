@@ -15,6 +15,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AbstractFactoryBusinessLogic.MailWorker;
+using AbstructFactoryContracts.BindingModels;
+
 namespace AbstractFactoryRestApi
 {
     public class Startup
@@ -31,9 +34,11 @@ public void ConfigureServices(IServiceCollection services)
             services.AddTransient<IClientStorage, ClientStorage>();
             services.AddTransient<IOrderStorage, OrderStorage>();
             services.AddTransient<IEngineStorage, EngineStorage>();
+            services.AddTransient<IMessageInfoLogic, MessageInfoLogic>();
             services.AddTransient<IOrderLogic, OrderLogic>();
             services.AddTransient<IClientLogic, ClientLogic>();
             services.AddTransient<IEngineLogic, EngineLogic>();
+            services.AddTransient<IMessageInfoStorage, MessageInfoStorage>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -62,6 +67,22 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+            var mailSender =
+app.ApplicationServices.GetService<AbstractMailWorker>();
+            mailSender.MailConfig(new MailConfigBindingModel
+            {
+                MailLogin =
+            Configuration?.GetSection("MailLogin")?.ToString(),
+                MailPassword =
+            Configuration?.GetSection("MailPassword")?.ToString(),
+                SmtpClientHost =
+            Configuration?.GetSection("SmtpClientHost")?.ToString(),
+                SmtpClientPort =
+            Convert.ToInt32(Configuration?.GetSection("SmtpClientPort")?.ToString()),
+                PopHost = Configuration?.GetSection("PopHost")?.ToString(),
+                PopPort =
+            Convert.ToInt32(Configuration?.GetSection("PopPort")?.ToString())
             });
         }
     }

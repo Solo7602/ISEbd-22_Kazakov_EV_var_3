@@ -10,8 +10,10 @@ namespace AbstractFactoryRestApi.Controllers
     public class ClientController : ControllerBase
     {
         private readonly IClientLogic _logic;
-        public ClientController(IClientLogic logic)
+        private readonly IMessageInfoLogic _logicM;
+        public ClientController(IClientLogic logic, IMessageInfoLogic logicM)
         {
+            _logicM= logicM;
             _logic = logic;
         }
         [HttpGet]
@@ -24,6 +26,8 @@ namespace AbstractFactoryRestApi.Controllers
             });
             return (list != null && list.Count > 0) ? list[0] : null;
         }
+        [HttpGet]
+        public List<MessageInfoViewModel> GetMessages(int clientId) => _logicM.Read(new MessageInfoBindingModel { ClientId = clientId });
         [HttpPost]
         public void Register(ClientBindingModel model) =>
         _logic.CreateOrUpdate(model);
