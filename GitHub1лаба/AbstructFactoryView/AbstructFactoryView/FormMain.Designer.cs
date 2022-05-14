@@ -37,6 +37,7 @@
             this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DateCreate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DateImplement = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ImplementerFIO = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.справочникToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.компонентToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -51,7 +52,7 @@
             this.buttonRef = new System.Windows.Forms.Button();
             this.buttonOrderGive = new System.Windows.Forms.Button();
             this.buttonCreate = new System.Windows.Forms.Button();
-            this.ImplementerFIO = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.письмаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -119,12 +120,18 @@
             this.DateImplement.HeaderText = "Дата выполнения";
             this.DateImplement.Name = "DateImplement";
             // 
+            // ImplementerFIO
+            // 
+            this.ImplementerFIO.HeaderText = "Исполнитель";
+            this.ImplementerFIO.Name = "ImplementerFIO";
+            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.справочникToolStripMenuItem,
             this.отчетыToolStripMenuItem,
-            this.запускРаботToolStripMenuItem});
+            this.запускРаботToolStripMenuItem,
+            this.письмаToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(800, 24);
@@ -238,10 +245,12 @@
             this.buttonCreate.UseVisualStyleBackColor = true;
             this.buttonCreate.Click += new System.EventHandler(this.buttonCreate_Click);
             // 
-            // ImplementerFIO
+            // письмаToolStripMenuItem
             // 
-            this.ImplementerFIO.HeaderText = "Исполнитель";
-            this.ImplementerFIO.Name = "ImplementerFIO";
+            this.письмаToolStripMenuItem.Name = "письмаToolStripMenuItem";
+            this.письмаToolStripMenuItem.Size = new System.Drawing.Size(62, 20);
+            this.письмаToolStripMenuItem.Text = "Письма";
+            this.письмаToolStripMenuItem.Click += new System.EventHandler(this.письмаToolStripMenuItem_Click);
             // 
             // FormMain
             // 
@@ -291,5 +300,6 @@
         private ToolStripMenuItem исполнителиToolStripMenuItem;
         private ToolStripMenuItem запускРаботToolStripMenuItem;
         private DataGridViewTextBoxColumn ImplementerFIO;
+        private ToolStripMenuItem письмаToolStripMenuItem;
     }
 }
