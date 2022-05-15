@@ -14,7 +14,7 @@ namespace AbstractFactoryDatabaseImplement
         {
             if (optionsBuilder.IsConfigured == false)
             {
-                optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=EngineShopDBs;Trusted_Connection=True");
+                optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=EngineShopDBsss;Trusted_Connection=True");
             }
             base.OnConfiguring(optionsBuilder);
         }
