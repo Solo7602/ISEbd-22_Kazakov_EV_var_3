@@ -61,6 +61,7 @@ namespace AbstractFactoryBusinessLogic.BusinessLogic
             {
                 Id = order.Id,
                 EngineId = order.ProductId,
+                ClientId = order.ClientId,
                 Count = order.Count,
                 ImplementerId = model.ImplementerId,
                 Sum = order.Sum,
@@ -87,6 +88,7 @@ namespace AbstractFactoryBusinessLogic.BusinessLogic
             {
                 Id = order.Id,
                 EngineId = order.ProductId,
+                ClientId = order.ClientId,
                 ImplementerId = model.ImplementerId,
                 Count = order.Count,
                 Sum = order.Sum,
@@ -110,8 +112,10 @@ namespace AbstractFactoryBusinessLogic.BusinessLogic
             {
                 Id = order.Id,
                 EngineId = order.ProductId,
+                ClientId =order.ClientId,
                 Count = order.Count,
                 Sum = order.Sum,
+                ImplementerId = order.ImplementerId,
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement,
                 Status = OrderStatus.Выдан

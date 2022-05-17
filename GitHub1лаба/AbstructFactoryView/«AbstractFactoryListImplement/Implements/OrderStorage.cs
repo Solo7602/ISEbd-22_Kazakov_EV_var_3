@@ -21,7 +21,7 @@ namespace _AbstractFactoryListImplement.Implements
 
         public List<OrderViewModel> GetFullList()
         {
-            var result = new List<OrderViewModel>();
+            List<OrderViewModel> result = new List<OrderViewModel>();
             foreach (var order in source.Orders)
             {
                 result.Add(CreateModel(order));
@@ -34,10 +34,14 @@ namespace _AbstractFactoryListImplement.Implements
             {
                 return null;
             }
-            var result = new List<OrderViewModel>();
+            List<OrderViewModel> result = new List<OrderViewModel>();
             foreach (var order in source.Orders)
             {
-                if (order.Id.ToString().Contains(model.EngineId.ToString()) || order.DateCreate >= model.DateFrom && order.DateCreate <= model.DateTo)
+                if ((!model.DateFrom.HasValue && !model.DateTo.HasValue && order.DateCreate == model.DateCreate) ||
+                    (model.DateFrom.HasValue && model.DateTo.HasValue && order.DateCreate.Date >= model.DateFrom.Value.Date && order.DateCreate.Date <= model.DateTo.Value.Date) ||
+                    (/*model.ClientId.HasValue &&*/ order.ClientId == model.ClientId) ||
+                    (model.SearchStatus.HasValue && model.SearchStatus.Value == order.Status) ||
+                    (model.ImplementerId.HasValue && order.ImplementerId == model.ImplementerId && model.Status == order.Status))
                 {
                     result.Add(CreateModel(order));
                 }
@@ -50,12 +54,11 @@ namespace _AbstractFactoryListImplement.Implements
             {
                 return null;
             }
-            foreach (var order in source.Orders)
+            foreach (var component in source.Orders)
             {
-                if (order.Id == model.Id || order.ProductId ==
-                model.EngineId)
+                if (component.Id == model.Id || component.ProductId == model.EngineId)
                 {
-                    return CreateModel(order);
+                    return CreateModel(component);
                 }
             }
             return null;
@@ -88,7 +91,6 @@ namespace _AbstractFactoryListImplement.Implements
             }
             CreateModel(model, tempOrder);
         }
-
         public void Delete(OrderBindingModel model)
         {
             for (int i = 0; i < source.Orders.Count; ++i)
@@ -103,7 +105,9 @@ namespace _AbstractFactoryListImplement.Implements
         }
         private Orders CreateModel(OrderBindingModel model, Orders order)
         {
+            order.ClientId = (int)model.ClientId;
             order.ProductId = model.EngineId;
+            order.ImplementerId = model.ImplementerId;
             order.Count = model.Count;
             order.Sum = model.Sum;
             order.Status = model.Status;
@@ -113,23 +117,48 @@ namespace _AbstractFactoryListImplement.Implements
         }
         private OrderViewModel CreateModel(Orders order)
         {
-            string EngineName = "";
+            string engineName = "";
             foreach (var engine in source.Engines)
             {
                 if (engine.Id == order.ProductId)
                 {
-                    EngineName = engine.Engine;
+                    engineName = engine.Engine;
+                    break;
                 }
             }
-
+            string clientFIO = null;
+            foreach (Clients client in source.Clients)
+            {
+                if (order.ClientId == client.Id)
+                {
+                    clientFIO = client.ClientFIO;
+                    break;
+                }
+            }
+            string implementerFIO = null;
+            if (order.ImplementerId != null)
+            {
+                foreach (var implementer in source.Implementers)
+                {
+                    if (implementer.Id == order.ImplementerId)
+                    {
+                        implementerFIO = implementer.ImplementerFIO;
+                        break;
+                    }
+                }
+            }
             return new OrderViewModel
             {
                 Id = order.Id,
                 ProductId = order.ProductId,
-                Engine = EngineName,
-                Count = order.Count,
+                ClientId = order.ClientId,
+                ClientFIO = clientFIO,
+                ImplementerId = order.ImplementerId,
+                ImplementerFIO = implementerFIO,
                 Sum = order.Sum,
-                Status = order.Status ,
+                Count = order.Count,
+                Status = order.Status,
+                Engine = engineName,
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement
             };

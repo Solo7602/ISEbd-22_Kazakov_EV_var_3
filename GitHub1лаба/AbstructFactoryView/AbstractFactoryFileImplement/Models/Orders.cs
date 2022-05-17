@@ -1,19 +1,18 @@
-﻿using System;
+﻿using AbstructFactoryContracts.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AbstructFactoryContracts.Enums;
 
-
-namespace _AbstractFactoryListImplement.Models
+namespace AbstractFactoryFileImplement.Models
 {
     public class Orders
     {
 		public int Id { get; set; }
 		public int ClientId { get; set; }
-		public int ProductId { get; set; }
 		public int? ImplementerId { get; set; }
+		public int CannedId { get; set; }
 		public int Count { get; set; }
 		public decimal Sum { get; set; }
 		public OrderStatus Status { get; set; }

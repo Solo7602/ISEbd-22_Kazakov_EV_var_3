@@ -4,6 +4,7 @@ using AbstractFactoryDatabaseImplement;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AbstractFactoryDatabaseImplement.Migrations
 {
     [DbContext(typeof(AbstractFactoryDatabase))]
-    partial class AbstractFactoryDatabaseModelSnapshot : ModelSnapshot
+    [Migration("20220505112732_SS")]
+    partial class SS
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -157,6 +159,7 @@ namespace AbstractFactoryDatabaseImplement.Migrations
                         .HasColumnType("int");
 
                     b.Property<int?>("ImplementerId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int>("Status")

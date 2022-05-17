@@ -2,7 +2,7 @@ using AbstractFactoryBusinessLogic.BusinessLogic;
 using AbstructFactoryContracts.BusinessLogicContracts;
 using AbstructFactoryContracts.StoragesContracts;
 using AbstractFactoryFileImplement;
-using AbstractFactoryDatabaseImplement.Implements;
+//using AbstractFactoryDatabaseImplement.Implements;
 using System;
 using System.Windows.Forms;
 using Unity;
@@ -10,6 +10,7 @@ using Unity.Lifetime;
 using AbstructFactoryContracts.BusinessLogicsContracts;
 using AbstractFactoryBusinessLogic.OfficePackage;
 using AbstractFactoryBusinessLogic.OfficePackage.Implements;
+using _AbstractFactoryListImplement.Implements;
 
 namespace AbstructFactoryView
 {
@@ -39,8 +40,8 @@ namespace AbstructFactoryView
 
             Application.ApplicationExit += ApplicationExit;
             AppDomain.CurrentDomain.UnhandledException += (o, e) => { if (e.IsTerminating) ApplicationExit(null, null); };
-           //var logic = Container.Resolve<IClientLogic>();
-           //logic.CreateOrUpdate(new AbstructFactoryContracts.BindingModels.ClientBindingModel { ClientFIO = "admin", Email = "admin", Password = "1" });
+           var logic = Container.Resolve<IClientLogic>();
+           logic.CreateOrUpdate(new AbstructFactoryContracts.BindingModels.ClientBindingModel { ClientFIO = "admin", Email = "admin", Password = "1" });
             Application.ThreadException += (o, e) => { Application.Exit(); };
 
             Application.Run(Container.Resolve<FormMain>());
