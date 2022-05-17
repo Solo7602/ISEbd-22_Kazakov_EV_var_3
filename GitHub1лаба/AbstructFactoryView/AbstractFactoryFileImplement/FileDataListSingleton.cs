@@ -1,11 +1,12 @@
 ﻿using AbstructFactoryContracts.Enums;
-using _AbstractFactoryListImplement.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AbstractFactoryFileImplement.Models;
+using _AbstractFactoryListImplement.Models;
 
 namespace AbstractFactoryFileImplement
 {
@@ -15,14 +16,18 @@ namespace AbstractFactoryFileImplement
         private readonly string DetailFileName = "Detail.xml";
         private readonly string OrderFileName = "Order.xml";
         private readonly string EngineFileName = "Engine.xml";
+        private readonly string ClientFileName = "Client.xml";
         public List<Details> Details { get; set; }
         public List<Orders> Orders { get; set; }
         public List<Engines> Engines { get; set; }
+        public List<Clients> Clients { get; set; }
+
         private FileDataListSingleton()
         {
             Details = LoadDetails();
             Orders = LoadOrders();
             Engines = LoadEngines();
+            Clients = LoadClients();
         }
         public static FileDataListSingleton GetInstance()
         {
@@ -106,6 +111,28 @@ namespace AbstractFactoryFileImplement
             }
             return list;
         }
+        private List<Client> LoadClients()
+        {
+            var list = new List<Client>();
+
+            if (File.Exists(ClientFileName))
+            {
+                XDocument xDocument = XDocument.Load(ClientFileName);
+                var xElements = xDocument.Root.Elements("Client").ToList();
+
+                foreach (var client in xElements)
+                {
+                    list.Add(new Client
+                    {
+                        Id = Convert.ToInt32(client.Attribute("Id").Value),
+                        ClientFIO = client.Element("ClientFIO").Value,
+                        Email = client.Element("Email").Value,
+                        Password = client.Element("Password").Value,
+                    });
+                }
+            }
+            return list;
+        }
         private void SaveDetails()
         {
             if (Details != null)
@@ -164,6 +191,25 @@ namespace AbstractFactoryFileImplement
                 }
                 var xDocument = new XDocument(xElement);
                 xDocument.Save(EngineFileName);
+            }
+        }
+        private void SaveClients()
+        {
+            if (Clients != null)
+            {
+                var xElement = new XElement("Clients");
+
+                foreach (var client in Clients)
+                {
+                    xElement.Add(new XElement("Client",
+                    new XAttribute("Id", client.Id),
+                    new XElement("ClientFIO", client.ClientFIO),
+                    new XElement("Email", client.Email),
+                    new XElement("Password", client.Password)));
+                }
+
+                XDocument xDocument = new XDocument(xElement);
+                xDocument.Save(ClientFileName);
             }
         }
     }
