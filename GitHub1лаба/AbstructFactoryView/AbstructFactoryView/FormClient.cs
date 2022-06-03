@@ -19,12 +19,34 @@ namespace AbstructFactoryView
         public new IUnityContainer Container { get; set; }
 
         private readonly ClientLogic logic;
-        public FormClient()
+        public FormClient(ClientLogic logic)
         {
             InitializeComponent();
             this.logic = logic;
         }
 
+        private void FormClients_Load(object sender, EventArgs e)
+        {
+            LoadData();
+        }
+        private void LoadData()
+        {
+            try
+            {
+                var list = logic.Read(null);
+                if (list != null)
+                {
+                    dataGridView.DataSource = list;
+                    dataGridView.Columns[0].Visible = false;
+                    dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
+            }
+        }
         private void buttonDel_Click(object sender, EventArgs e)
         {
             if (dataGridView.SelectedRows.Count == 1)
@@ -45,29 +67,6 @@ namespace AbstructFactoryView
                     }
                     LoadData();
                 }
-            }
-        }
-
-        private void FormClient_Load(object sender, EventArgs e)
-        {
-            LoadData();
-        }
-        private void LoadData()
-        {
-            try
-            {
-                var list = logic.Read(null);
-                if (list != null)
-                {
-                    dataGridView.DataSource = list;
-                    dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-                MessageBoxIcon.Error);
             }
         }
 

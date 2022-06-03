@@ -168,7 +168,7 @@ namespace AbstructFactoryView
 
         private void клиентыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Program.Container.Resolve<FormClients>();
+            var form = Program.Container.Resolve<FormClient>();
             form.ShowDialog();
         }
     }
