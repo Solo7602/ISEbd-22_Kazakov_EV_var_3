@@ -30,7 +30,7 @@ namespace AbstructFactoryView
             try
             {
                 var list = _logicP.Read(null);
-                foreach (var component in list)
+                if (list != null)
                 {
                     comboBoxEngine.DisplayMember = "Engine";
                     comboBoxEngine.ValueMember = "Id";
