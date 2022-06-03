@@ -14,7 +14,7 @@ namespace AbstractFactoryDatabaseImplement
         {
             if (optionsBuilder.IsConfigured == false)
             {
-                optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=EnginesDatabase;Trusted_Connection=True");
+                optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=ShopDB;Trusted_Connection=True");
             }
             base.OnConfiguring(optionsBuilder);
         }
@@ -23,6 +23,7 @@ namespace AbstractFactoryDatabaseImplement
         public virtual DbSet<Engine> Engines { set; get; }
         public virtual DbSet<EngineDetail> EngineDetail { set; get; }
         public virtual DbSet<Order> Orders { set; get; }
+        public virtual DbSet<Client> Clients { set; get; }
 
     }
 }

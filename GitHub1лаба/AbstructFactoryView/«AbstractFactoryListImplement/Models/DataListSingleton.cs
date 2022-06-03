@@ -15,11 +15,13 @@ namespace _AbstractFactoryListImplement
         public List<Details> Details { get; set; }
         public List<Orders> Orders { get; set; }
         public List<Engines> Engines { get; set; }
+        public List<Clients> Clients { get; set; }
         private DataListSingleton()
         {
             Details = new List<Details>();
             Orders = new List<Orders>();
             Engines = new List<Engines>();
+            Clients = new List<Clients>();
         }
         public static DataListSingleton GetInstance()
         {
