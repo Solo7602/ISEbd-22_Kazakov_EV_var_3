@@ -5,32 +5,32 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using AbstructFactoryContracts.Enums;
-
-
+using AbstractContracts.Attributes;
 
 namespace AbstructFactoryContracts.ViewModels
 {
     public class OrderViewModel
     {
+        [Column(title: "Номер", width: 50)]
         public int Id { get; set; }
         public int ProductId { get; set; }
-        [DisplayName("Изделие")]
+        [Column(title: "Двигатели", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string Engine { get; set; }
         public int? ImplementerId { get; set; }
         public int ClientId { get; set; }
-        [DisplayName("ФИО клиента")]
+        [Column(title: "Клиент", width: 70)]
         public string ClientFIO { get; set; }
-        [DisplayName("Количество")]
+        [Column(title: "Количество", width: 80)]
         public int Count { get; set; }
-        [DisplayName("Сумма")]
+        [Column(title: "Сумма", width: 60)]
         public decimal Sum { get; set; }
-        [DisplayName("Исполнитель")]
+        [Column(title: "Исполнитель", width: 100)]
         public string ImplementerFIO { get; set; }
-        [DisplayName("Статус")]
+        [Column(title: "Статус", width: 100)]
         public OrderStatus Status { get; set; }
-        [DisplayName("Дата создания")]
+        [Column(title: "Дата создания", width: 110)]
         public DateTime DateCreate { get; set; }
-        [DisplayName("Дата выполнения")]
+        [Column(title: "Дата выполнения", width: 110)]
         public DateTime? DateImplement { get; set; }
     }
 }
