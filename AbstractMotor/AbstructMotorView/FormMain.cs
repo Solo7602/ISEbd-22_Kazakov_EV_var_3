@@ -1,4 +1,6 @@
-﻿using AbstractFactoryBusinessLogic.BusinessLogic;
+﻿using AbstractBusinessLogic.BusinessLogic;
+using AbstractContracts.BindingModels;
+using AbstractFactoryBusinessLogic.BusinessLogic;
 using AbstructFactoryContracts.BindingModels;
 using AbstructFactoryContracts.BusinessLogicContracts;
 using AbstructFactoryContracts.BusinessLogicsContracts;
@@ -21,13 +23,15 @@ namespace AbstructMotorView
         private readonly IReportLogic _reportLogic;
         private readonly WorkModeling _workModeling;
         private readonly IImplementerLogic _implementerLogic;
-        public FormMain(IOrderLogic orderLogic, IReportLogic reportLogic, WorkModeling workModeling, IImplementerLogic implementerLogic)
+        private readonly IBackUpLogic _backUpLogic;
+        public FormMain(IOrderLogic orderLogic, IReportLogic reportLogic, WorkModeling workModeling, IImplementerLogic implementerLogic, IBackUpLogic backUpLogic)
         {
             InitializeComponent();
             _implementerLogic = implementerLogic;
             _workModeling = workModeling;
             _orderLogic = orderLogic;
             _reportLogic = reportLogic;
+            _backUpLogic = backUpLogic;
         }
         private void FormMain_Load(object sender, EventArgs e)
         {
@@ -37,15 +41,7 @@ namespace AbstructMotorView
         {
             try
             {
-                var list = _orderLogic.Read(null);
-                if (list != null)
-                {
-                    dataGridView.DataSource = list;
-                    dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[1].Visible = false;
-                    dataGridView.Columns[2].Visible = false;
-                    dataGridView.Columns[3].Visible = false;
-                }
+                Program.ConfigGrid(_orderLogic.Read(null), dataGridView);
             }
             catch (Exception ex)
             {
@@ -148,6 +144,31 @@ namespace AbstructMotorView
         {
             var form = Program.Container.Resolve<FormMail>();
             form.ShowDialog();
+        }
+
+        private void создатьБекапToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (_backUpLogic != null)
+                {
+                    var fbd = new FolderBrowserDialog();
+                    if (fbd.ShowDialog() == DialogResult.OK)
+                    {
+                        _backUpLogic.CreateBackUp(new
+                        BackUpSaveBinidngModel
+                        { FolderName = fbd.SelectedPath });
+                        MessageBox.Show("Бекап создан", "Сообщение",
+                       MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+               MessageBoxIcon.Error);
+            }
+
         }
     }
 }
